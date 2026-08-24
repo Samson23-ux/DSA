@@ -14,6 +14,20 @@ def insertion_sort(data: list[int]) -> list[int]:
     return data
 
 
+# Selection sort
+def selection_sort(data: list[int]) -> list[int]:
+    for i in range(len(data) - 1):
+        smallest_index = i
+        j = i + 1
+
+        while j < len(data):
+            if data[smallest_index] > data[j]:
+                smallest_index = j
+            j += 1
+        data[i], data[smallest_index] = data[smallest_index], data[i]
+    return data
+
+
 # Neetcode - Problem:
 
 """Implement Insertion Sort and return intermediate states.
