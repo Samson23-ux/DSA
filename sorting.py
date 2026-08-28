@@ -28,7 +28,7 @@ def selection_sort(data: list[int]) -> list[int]:
     return data
 
 
-# Neetcode - Problem:
+# Neetcode - Problem: 1630
 
 """Implement Insertion Sort and return intermediate states.
 
@@ -79,7 +79,8 @@ class Solution:
 
 # Leetcode - Problem: 1630
 
-"""A sequence of numbers is called arithmetic if it consists of at least two elements, and the difference between every two consecutive elements is the same.
+"""A sequence of numbers is called arithmetic if it consists of at least two elements,
+and the difference between every two consecutive elements is the same.
 More formally, a sequence s is arithmetic if and only if s[i+1] - s[i] == s[1] - s[0] for all valid i.
 
 For example, these are arithmetic sequences:
@@ -90,9 +91,11 @@ For example, these are arithmetic sequences:
 The following sequence is not arithmetic:
 
 1, 1, 2, 5, 7
-You are given an array of n integers, nums, and two arrays of m integers each, l and r, representing the m range queries, where the ith query is the range [l[i], r[i]]. All the arrays are 0-indexed.
+You are given an array of n integers, nums, and two arrays of m integers each, l and r, representing the m range queries,
+where the ith query is the range [l[i], r[i]]. All the arrays are 0-indexed.
 
-Return a list of boolean elements answer, where answer[i] is true if the subarray nums[l[i]], nums[l[i]+1], ... , nums[r[i]] can be rearranged to form an arithmetic sequence, and false otherwise.
+Return a list of boolean elements answer, where answer[i] is true if the subarray nums[l[i]], nums[l[i]+1], ... , nums[r[i]]
+can be rearranged to form an arithmetic sequence, and false otherwise.
 """
 
 # Solution
@@ -127,3 +130,75 @@ def checkArithmeticSubarrays(nums, l, r):
 
 # time complexity -> O(m*n(logn))
 # space complexity -> O(n*m)
+
+# Solution 2 of problem 1630 - Uisng sets and mathematical properties
+
+def checkArithmeticSubarrays2(nums, l, r):
+    """
+    :type nums: List[int]
+    :type l: List[int]
+    :type r: List[int]
+    :rtype: List[bool]
+    """
+
+    # using arithmetic sequence
+    # t(n) = a + (n-1)d; where t(n) = last term
+    
+    """Since the elements are integers and the difference
+    bewtween each consecutive numbers must be the same,
+    the elements increase by the same amount (arithmetic sequence).
+    
+    First step is to calculate the common difference (d) by using
+    the max and min elements of each subarray and their length.
+    The min and max elements correspond to the first and last element
+    in the sequence.
+    
+    Any element i from the subarray minus the min element must be divisible
+    by the common difference to be a valid arithmetic sequence
+    
+    Edge cases:
+    1. The subarray is a valid sequence if the length <= 2
+    2. If the diff (max-min) == 0, the subarray contain the same elements
+    and by definition of the problem (s[i+1] - s[i] == s[1] - s[0]), is a 
+    valid sequence
+    3. If the diff is not a factor of (n-1), then it is not a valid arithmetic
+    sequence since all elements are integers
+    4. Duplicate elements cannot produce a valid arithmetic sequence
+    """
+
+    answer, arr_mem = [], {}
+    for i in range(len(l)):
+        arr_mem, is_arithmetic = set(), False
+        min_value, max_value = float("+inf"), float("-inf")
+
+        sub_array = nums[l[i]:r[i]+1]
+
+        if len(sub_array) <= 2:
+            is_arithmetic = True
+        else:
+            for j in range(len(sub_array)):
+                min_value = min(min_value, sub_array[j])
+                max_value = max(max_value, sub_array[j])
+
+            diff = max_value - min_value
+            common_diff = diff / (len(sub_array) - 1)
+            is_int = diff % (len(sub_array) - 1) == 0
+
+            if not is_int:
+                answer.append(is_arithmetic)
+                continue
+
+            for d in range(len(sub_array)):
+                arr_mem.add(sub_array[d])
+
+                if min_value == max_value:
+                    is_arithmetic = True
+                    break
+                elif ((sub_array[d] - min_value) % common_diff) == 0 and len(arr_mem) > d:
+                    is_arithmetic = True
+                else:
+                    is_arithmetic = False
+                    break
+
+        answer.append(is_arithmetic)
+    return answer
