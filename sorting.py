@@ -296,3 +296,42 @@ def recursive_bubble_sort(nums, i=None):
 
         recursive_bubble_sort(nums, i - 1)
     return nums
+
+
+# Quick sort
+def quick_sort(nums, start = 0, end = None):
+    if end is None:
+        end = len(nums) - 1
+
+    def partition(nums, start, end):
+        # pivot is chosen to be the last element
+        l, r = start, end-1
+
+        while l < r:
+            if nums[l] <= nums[end]:
+                l += 1
+            elif nums[r] > nums[end]:
+                r -= 1
+            else:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+
+        # check finally for the last element
+        # return end if it is less than our pivot
+        # i.e. the last element is in its right position
+        if nums[l] < nums[end]:
+            return end
+        else:
+            # swap the pivot and the last element
+            # and return the index of the last element
+            nums[l], nums[end] = nums[end], nums[l]
+            return l
+
+    if start < end:
+        print(nums)
+        print()
+        partition_index = partition(nums, start, end)
+        quick_sort(nums, start, partition_index-1)
+        quick_sort(nums, partition_index+1, end)
+    return nums
