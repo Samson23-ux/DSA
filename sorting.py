@@ -202,3 +202,51 @@ def checkArithmeticSubarrays2(nums, l, r):
 
         answer.append(is_arithmetic)
     return answer
+
+
+# merge sort algorithm
+def merge(nums, p, q, r):
+    n1, n2 = q-p + 1, r - q
+    left, right = [], []
+
+    for i in range(n1):
+        left.append(nums[p+i])
+    for j in range(n2):
+        right.append(nums[q+1+j])
+
+    left.append(float("+inf")), right.append(float("+inf"))
+
+    i, j = 0, 0
+
+    for k in range(p, r+1):
+        if left[i] <= right[j]:
+            nums[k] = left[i]
+            i += 1
+        else:
+            nums[k] = right[j]
+            j += 1
+
+def merge_sort(nums, p = 0, r = None):
+    if r is None:
+        r = len(nums) - 1
+
+    if p < r:
+        q = (p+r) // 2
+
+        merge_sort(nums, p, q)
+        merge_sort(nums, q+1, r)
+        merge(nums, p, q, r)
+    return nums
+
+def bubble_sort(nums):
+    for i in range(len(nums)-1, 0, -1):
+        is_swapped = False
+        for j in range(i):
+            if nums[j] > nums[j+1]:
+                nums[j], nums[j+1] = nums[j+1], nums[j]
+                is_swapped = True
+        if not is_swapped:
+            return nums
+    return nums
+
+print(bubble_sort([9,1,8,2,7,3,6,4,5]))
