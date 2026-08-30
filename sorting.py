@@ -14,6 +14,23 @@ def insertion_sort(data: list[int]) -> list[int]:
     return data
 
 
+def recursive_insertion_sort(data: list[int], i=None) -> list[int]:
+    if i is None:
+        i = 1
+
+    if i < len(data):
+        curr_elem = data[i]
+        prev_index = i - 1
+
+        while prev_index >= 0 and data[prev_index] > curr_elem:
+            data[prev_index + 1] = data[prev_index]
+            prev_index -= 1
+        data[prev_index + 1] = curr_elem
+
+        recursive_insertion_sort(data, i + 1)
+    return data
+
+
 # Selection sort
 def selection_sort(data: list[int]) -> list[int]:
     for i in range(len(data) - 1):
@@ -50,29 +67,33 @@ pairs - a list of key-value pairs, where each key-value has an integer key and a
 
 # solution
 
+
 # Definition for a pair.
 class Pair:
     def __init__(self, key: int, value: str):
         self.key = key
         self.value = value
 
+
 class Solution:
     def insertionSort(self, pairs: List[Pair]) -> List[List[Pair]]:
-        if len(pairs) == 0: return []
+        if len(pairs) == 0:
+            return []
         res = [pairs[:]]
         for i in range(1, len(pairs)):
             curr_pair = pairs[i]
             curr_elem = curr_pair.key
-            prev_index = i-1
+            prev_index = i - 1
 
             while prev_index >= 0 and pairs[prev_index].key > curr_elem:
-                pairs[prev_index+1] = pairs[prev_index]
+                pairs[prev_index + 1] = pairs[prev_index]
                 prev_index -= 1
-            pairs[prev_index+1] = curr_pair
+            pairs[prev_index + 1] = curr_pair
             res.append(pairs[:])
         return res
 
-# Complexity 
+
+# Complexity
 
 # Time complexity - O(n^2)
 # Space complexity - O(n^2)
@@ -107,6 +128,7 @@ can be rearranged to form an arithmetic sequence, and false otherwise.
 # 4. Run another loop from d=2 to length of subarray
 # 5. Check if consecutive integers have the same difference
 
+
 def checkArithmeticSubarrays(nums, l, r):
     """
     :type nums: List[int]
@@ -117,21 +139,25 @@ def checkArithmeticSubarrays(nums, l, r):
 
     answer = []
     for i in range(len(l)):
-        sub_array = nums[l[i]:r[i]+1]
+        sub_array = nums[l[i] : r[i] + 1]
         sub_array.sort()
 
         is_arithmetic = True
         for d in range(2, len(sub_array)):
-            is_con = sub_array[d] - sub_array[d-1] == sub_array[d-1] - sub_array[d-2]
+            is_con = (
+                sub_array[d] - sub_array[d - 1] == sub_array[d - 1] - sub_array[d - 2]
+            )
             is_arithmetic = is_arithmetic and is_con
 
         answer.append(is_arithmetic)
     return answer
 
+
 # time complexity -> O(m*n(logn))
 # space complexity -> O(n*m)
 
 # Solution 2 of problem 1630 - Uisng sets and mathematical properties
+
 
 def checkArithmeticSubarrays2(nums, l, r):
     """
@@ -143,7 +169,7 @@ def checkArithmeticSubarrays2(nums, l, r):
 
     # using arithmetic sequence
     # t(n) = a + (n-1)d; where t(n) = last term
-    
+
     """Since the elements are integers and the difference
     bewtween each consecutive numbers must be the same,
     the elements increase by the same amount (arithmetic sequence).
@@ -171,7 +197,7 @@ def checkArithmeticSubarrays2(nums, l, r):
         arr_mem, is_arithmetic = set(), False
         min_value, max_value = float("+inf"), float("-inf")
 
-        sub_array = nums[l[i]:r[i]+1]
+        sub_array = nums[l[i] : r[i] + 1]
 
         if len(sub_array) <= 2:
             is_arithmetic = True
@@ -194,7 +220,9 @@ def checkArithmeticSubarrays2(nums, l, r):
                 if min_value == max_value:
                     is_arithmetic = True
                     break
-                elif ((sub_array[d] - min_value) % common_diff) == 0 and len(arr_mem) > d:
+                elif ((sub_array[d] - min_value) % common_diff) == 0 and len(
+                    arr_mem
+                ) > d:
                     is_arithmetic = True
                 else:
                     is_arithmetic = False
@@ -206,19 +234,19 @@ def checkArithmeticSubarrays2(nums, l, r):
 
 # merge sort algorithm
 def merge(nums, p, q, r):
-    n1, n2 = q-p + 1, r - q
+    n1, n2 = q - p + 1, r - q
     left, right = [], []
 
     for i in range(n1):
-        left.append(nums[p+i])
+        left.append(nums[p + i])
     for j in range(n2):
-        right.append(nums[q+1+j])
+        right.append(nums[q + 1 + j])
 
     left.append(float("+inf")), right.append(float("+inf"))
 
     i, j = 0, 0
 
-    for k in range(p, r+1):
+    for k in range(p, r + 1):
         if left[i] <= right[j]:
             nums[k] = left[i]
             i += 1
@@ -226,27 +254,45 @@ def merge(nums, p, q, r):
             nums[k] = right[j]
             j += 1
 
-def merge_sort(nums, p = 0, r = None):
+
+def merge_sort(nums, p=0, r=None):
     if r is None:
         r = len(nums) - 1
 
     if p < r:
-        q = (p+r) // 2
+        q = (p + r) // 2
 
         merge_sort(nums, p, q)
-        merge_sort(nums, q+1, r)
+        merge_sort(nums, q + 1, r)
         merge(nums, p, q, r)
     return nums
 
+
+# Bubble sort
 def bubble_sort(nums):
-    for i in range(len(nums)-1, 0, -1):
+    for i in range(len(nums) - 1, 0, -1):
         is_swapped = False
         for j in range(i):
-            if nums[j] > nums[j+1]:
-                nums[j], nums[j+1] = nums[j+1], nums[j]
+            if nums[j] > nums[j + 1]:
+                nums[j], nums[j + 1] = nums[j + 1], nums[j]
                 is_swapped = True
         if not is_swapped:
             return nums
     return nums
 
-print(bubble_sort([9,1,8,2,7,3,6,4,5]))
+
+def recursive_bubble_sort(nums, i=None):
+    if i is None:
+        i = len(nums) - 1
+
+    if i > 0:
+        is_swapped = False
+        for j in range(i):
+            if nums[j] > nums[j + 1]:
+                nums[j], nums[j + 1] = nums[j + 1], nums[j]
+                is_swapped = True
+        if not is_swapped:
+            return nums
+
+        recursive_bubble_sort(nums, i - 1)
+    return nums
