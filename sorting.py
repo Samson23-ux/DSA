@@ -335,3 +335,27 @@ def quick_sort(nums, start = 0, end = None):
         quick_sort(nums, start, partition_index-1)
         quick_sort(nums, partition_index+1, end)
     return nums
+
+
+# Leetcode - Problem: 4011
+def countRatioSubarrays(nums, a, b):
+    """
+    :type nums: List[int]
+    :type a: int
+    :type b: int
+    :rtype: int
+    """
+
+    res = 0
+    for i in range(len(nums)):
+        x, y = 0, 0
+        for j in range(i, len(nums)):
+            if nums[j] % 2 == 0:
+                x += 1
+            else:
+                y += 1
+            
+            if y > 0 and (x * b) <= (y * a):
+                res += 1
+    return res
+print(countRatioSubarrays([2,2,2], 1, 1))
