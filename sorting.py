@@ -338,6 +338,22 @@ def quick_sort(nums, start = 0, end = None):
 
 
 # Leetcode - Problem: 4011
+
+"""You are given an integer array nums and two integers a and b.
+
+For a subarray, let:
+
+x be the number of even elements.
+y be the number of odd elements.
+The ratio of even to odd elements in a subarray is defined as x / y,
+where ratios are compared by their exact rational values.
+
+A subarray is considered valid if:
+
+y > 0, and
+x / y <= a / b.
+Return the number of valid subarrays in nums."""
+
 def countRatioSubarrays(nums, a, b):
     """
     :type nums: List[int]
@@ -358,4 +374,37 @@ def countRatioSubarrays(nums, a, b):
             if y > 0 and (x * b) <= (y * a):
                 res += 1
     return res
-print(countRatioSubarrays([2,2,2], 1, 1))
+
+# Leetcode - Problem: 88
+
+"""You are given two integer arrays nums1 and nums2, sorted in non-decreasing order,
+and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1.
+To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged,
+and the last n elements are set to 0 and should be ignored. nums2 has a length of n."""
+def merge_88(nums1, m, nums2, n):
+    """
+    :type nums1: List[int]
+    :type m: int
+    :type nums2: List[int]
+    :type n: int
+    :rtype: None Do not return anything, modify nums1 in-place instead.
+    """
+
+    i, j = 0, 0
+    cop_nums1 = nums1[0:m]
+
+    nums2.append(float("+inf"))
+    cop_nums1.append(float("+inf"))
+
+    for k in range(m+n):
+        if cop_nums1[i] <= nums2[j]:
+            nums1[k] = cop_nums1[i]
+            i += 1
+        else:
+            nums1[k] = nums2[j]
+            j += 1
+    return nums1
