@@ -82,10 +82,10 @@ class Solution:
         res = [pairs[:]]
         for i in range(1, len(pairs)):
             curr_pair = pairs[i]
-            curr_elem = curr_pair.key
+            curr_key = curr_pair.key
             prev_index = i - 1
 
-            while prev_index >= 0 and pairs[prev_index].key > curr_elem:
+            while prev_index >= 0 and pairs[prev_index].key > curr_key:
                 pairs[prev_index + 1] = pairs[prev_index]
                 prev_index -= 1
             pairs[prev_index + 1] = curr_pair
@@ -192,7 +192,7 @@ def checkArithmeticSubarrays2(nums, l, r):
     4. Duplicate elements cannot produce a valid arithmetic sequence
     """
 
-    answer, arr_mem = [], {}
+    answer = []
     for i in range(len(l)):
         arr_mem, is_arithmetic = set(), False
         min_value, max_value = float("+inf"), float("-inf")
@@ -329,8 +329,6 @@ def quick_sort(nums, start = 0, end = None):
             return l
 
     if start < end:
-        print(nums)
-        print()
         partition_index = partition(nums, start, end)
         quick_sort(nums, start, partition_index-1)
         quick_sort(nums, partition_index+1, end)
@@ -408,3 +406,45 @@ def merge_88(nums1, m, nums2, n):
             nums1[k] = nums2[j]
             j += 1
     return nums1
+
+
+def mergeArrays(nums1, nums2):
+    """
+    :type nums1: List[List[int]]
+    :type nums2: List[List[int]]
+    :rtype: List[List[int]]
+    """
+
+    i, j = 0, 0
+    total = len(nums1) + len(nums2)
+
+    nums1.append([float("+inf")])
+    nums2.append([float("+inf")])
+
+    res, processed = [], set()
+
+    for _ in range(total):
+        if nums1[i][0] in processed:
+            i += 1
+            continue
+        if nums2[j][0] in processed:
+            j += 1
+            continue
+
+        if nums1[i][0] == nums2[j][0]:
+            combined = nums1[i][1] + nums2[j][1]
+            res.append([nums1[i][0], combined])
+
+            processed.add(nums1[i][0])
+            i += 1
+        elif nums1[i][0] <= nums2[j][0]:
+            res.append([nums1[i][0], nums1[i][1]])
+            processed.add(nums1[i][0])
+
+            i += 1
+        else:
+            res.append([nums2[j][0], nums2[j][1]])
+            processed.add(nums2[j][0])
+
+            j += 1
+    return res
