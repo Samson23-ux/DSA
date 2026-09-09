@@ -499,7 +499,7 @@ def findListMiddleNode(nums):
     hare = head
     tortoise = head
 
-    while tortoise and tortoise.next:
+    while hare and hare.next:
         hare = hare.next.next
         tortoise = tortoise.next
 

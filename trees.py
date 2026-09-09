@@ -129,15 +129,15 @@ def levelOrderTraversal(root):
     return res
 
 
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-root.left.left = TreeNode(4)
-root.left.right = TreeNode(5)
-root.right.left = TreeNode(7)
-root.right.right = TreeNode(8)
-root.right.right.right = TreeNode(11)
-root.right.right.right.right = TreeNode(15)
+# root = TreeNode(1)
+# root.left = TreeNode(2)
+# root.right = TreeNode(3)
+# root.left.left = TreeNode(4)
+# root.left.right = TreeNode(5)
+# root.right.left = TreeNode(7)
+# root.right.right = TreeNode(8)
+# root.right.right.right = TreeNode(11)
+# root.right.right.right.right = TreeNode(15)
 
 
 # BST
@@ -172,11 +172,11 @@ def topKLargestNode(root, k):
     return res[len(res) - res[k-1]]
 
 
-bst_root = TreeNode(5)
-bst_root.left = TreeNode(3)
-bst_root.right = TreeNode(7)
-bst_root.left.left = TreeNode(1)
-bst_root.left.right = TreeNode(4)
-bst_root.right.left = TreeNode(6)
-bst_root.right.right = TreeNode(8)
-bst_root.left.left.right = TreeNode(2)
+# bst_root = TreeNode(5)
+# bst_root.left = TreeNode(3)
+# bst_root.right = TreeNode(7)
+# bst_root.left.left = TreeNode(1)
+# bst_root.left.right = TreeNode(4)
+# bst_root.right.left = TreeNode(6)
+# bst_root.right.right = TreeNode(8)
+# bst_root.left.left.right = TreeNode(2)

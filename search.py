@@ -55,6 +55,7 @@ def searchElementInRotated(nums, elem):
 # Leetcode - Problem: 81
 
 def searchElementInRotated2(nums, elem):
+    # coontains duplicate
     low, high = 0, len(nums)-1
 
     while low <= high:

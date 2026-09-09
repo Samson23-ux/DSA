@@ -2,8 +2,8 @@ from typing import List
 from collections import Counter
 
 # Leetcode - Problem 1
-# Two Sum
 
+# Two Sum
 
 def twoSum(nums: List[int], target: int) -> List[int]:
     hash_table = {}
@@ -15,7 +15,6 @@ def twoSum(nums: List[int], target: int) -> List[int]:
 
 
 # Leetcode - Problem 27
-
 
 def removeElement(nums, val):
     """
@@ -307,3 +306,85 @@ def kFrequentElement(nums, k):
             break
 
     return res
+
+
+# Leetcode - Problem: 
+
+def trappingRainWater(nums):
+    l, r = 0, len(nums)-1
+    max_left, max_right = float("-inf"), float("-inf")
+
+    total = 0
+
+    while l < r:
+        if nums[l] <= nums[r]:
+            # process left before right
+            if nums[l] < max_left:
+                # maxleft is definately smaller than maxright
+                # since we must have processed maxright first
+                # if maxleft were to be greater
+                total += max_left - nums[l]
+            else:
+                # our current is greater than maxleft so far
+                max_left = nums[l]
+            l += 1
+        else:
+            # process right before left
+            if nums[r] < max_right:
+                # maxright is definately smaller than maxleft
+                # since we must have processed maxleft first
+                # if maxright were to be greater
+                total += max_right - nums[r]
+            else:
+                # our current is greater than maxright so far
+                max_right = nums[r]
+            r -= 1
+    return total
+
+# Leetcode - Problem: 
+
+def buyAndSellStock(stocks):
+    max_profit = 0
+    min_price = float("inf")
+
+    for stock in stocks:
+        if stock <= min_price:
+            min_price = stock
+        else:
+            res = stock - min_price
+            max_profit = max(max_profit, res)
+    return max_profit
+
+
+# Leetcode - Problem: 66
+
+def plusOne(digits):
+    # if len(digits) == 1 and digits[0] > 8:
+    #     res = digits[0] + 1
+    #     res, carry = 10 % res, 10 // res
+
+    #     digits[0] = carry
+    #     digits.append(res)
+
+    #     return digits
+    carry = 0
+    for i in range(len(digits)-1, -1, -1):
+        res = digits[i] + carry
+        if i == len(digits)-1:
+            res += 1
+
+        if res > 9:
+            res, carry = 10 % res, 10 // res
+        else:
+            carry = 0
+
+        digits[i] = res
+
+        if carry == 0:
+            break
+
+    if carry > 0:
+        digits.insert(0, carry)
+    return digits
+
+print(plusOne([9]))

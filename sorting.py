@@ -202,15 +202,14 @@ def checkArithmeticSubarrays2(nums, l, r):
         if len(sub_array) <= 2:
             is_arithmetic = True
         else:
-            for j in range(len(sub_array)):
-                min_value = min(min_value, sub_array[j])
-                max_value = max(max_value, sub_array[j])
+            min_value = min(sub_array)
+            max_value = max(sub_array)
 
             diff = max_value - min_value
             common_diff = diff / (len(sub_array) - 1)
-            is_int = diff % (len(sub_array) - 1) == 0
+            is_divisible = diff % (len(sub_array) - 1) == 0
 
-            if not is_int:
+            if not is_divisible:
                 answer.append(is_arithmetic)
                 continue
 
@@ -405,13 +404,12 @@ def merge_88(nums1, m, nums2, n):
         else:
             nums1[k] = nums2[j]
             j += 1
-    return nums1
 
 
 def mergeArrays(nums1, nums2):
     """
-    :type nums1: List[List[int]]
-    :type nums2: List[List[int]]
+    :type nums1: List[List[int]]    [[1,2], [2,3]]
+    :type nums2: List[List[int]]    [[1,4], [4,5]]
     :rtype: List[List[int]]
     """
 
@@ -437,7 +435,7 @@ def mergeArrays(nums1, nums2):
 
             processed.add(nums1[i][0])
             i += 1
-        elif nums1[i][0] <= nums2[j][0]:
+        elif nums1[i][0] < nums2[j][0]:
             res.append([nums1[i][0], nums1[i][1]])
             processed.add(nums1[i][0])
 

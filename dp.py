@@ -82,7 +82,9 @@ def houseRobberM(nums):
         pick = nums[idx] + cal(idx-2, nums)
         n_pick = 0 + cal(idx-1, nums)
 
-        return max(pick, n_pick)
+        res = max(pick, n_pick)
+        dp[idx] = res
+        return res
 
     return cal(len(nums)-1)
 
@@ -106,19 +108,19 @@ def houseRobberT(nums):
 # Leetcode - Problem: 322
 
 def coinChangeM(nums, target):
-    dp =[[-1] * (target+1) for _ in len(nums)+1]
+    dp =[[-1] * (target+1) for _ in range(len(nums))]
     def cal(idx, target, nums):
         if idx == 0:
             if target % nums[idx] == 0:
-                return target / nums[idx]
+                return target // nums[idx]
             else:
-                return float("inf")
+                return -1
 
         pick = float("inf")
         if nums[idx] <= target:
-            pick = 1 + cal(idx, target-nums[idx])
+            pick = 1 + cal(idx, target-nums[idx], nums)
 
-        n_pick = 0 + cal(idx-1, target)
+        n_pick = 0 + cal(idx-1, target, nums)
 
         res = min(pick, n_pick)
         dp[idx][target] = res
@@ -128,21 +130,21 @@ def coinChangeM(nums, target):
 
 
 def coinChangeT(nums, target):
-    dp =[[-1] * (target+1) for _ in len(nums)-1]
+    dp =[[-1] * (target+1) for _ in range(len(nums))]
 
-    for t in range(target):
+    for t in range(target+1):
         if t % nums[0] == 0:
-            dp[0][t] = nums[0]
+            dp[0][t] = t // nums[0]
         else:
-            dp[0][t] = float("inf")
+            dp[0][t] = 1e9
 
-    for idx in range(1, len(nums)+1):
-        for t in range(target):
+    for idx in range(1, len(nums)):
+        for t in range(target+1):
             pick = float("inf")
-            if nums[idx] <= target:
+            if nums[idx] <= t:
                 pick = 1 + dp[idx][t-nums[idx]]
 
             n_pick = 0 + dp[idx-1][t]
             dp[idx][t] = min(pick, n_pick)
 
-    return dp[len(nums)][target]
+    return dp[len(nums)-1][target]
