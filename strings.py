@@ -74,3 +74,32 @@ def longestCommonPrefix(strs):
             break
         res += strs[0][i]
     return res
+
+
+# Leetcode - Problem 6
+
+def convert(s, numRows):
+    res = ""
+
+    column_width = (numRows*2) - 2
+    if len(s) < numRows or numRows <= 1:
+        return s
+
+    for i in range(numRows):
+        j = i
+
+        while j < len(s):
+            if i <= 0:
+                res += s[j]
+            else:
+                res += s[j]
+
+                # copy characters between the constant columns
+                # the index of after decreases as the value of i(row) increases
+                after = column_width - (2*i)
+                if after+j < len(s) and numRows-i > 1:
+                    res += s[after+j]
+
+            j += column_width  # calculation of the next constant column
+
+    return res

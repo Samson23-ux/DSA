@@ -359,14 +359,6 @@ def buyAndSellStock(stocks):
 # Leetcode - Problem: 66
 
 def plusOne(digits):
-    # if len(digits) == 1 and digits[0] > 8:
-    #     res = digits[0] + 1
-    #     res, carry = 10 % res, 10 // res
-
-    #     digits[0] = carry
-    #     digits.append(res)
-
-    #     return digits
     carry = 0
     for i in range(len(digits)-1, -1, -1):
         res = digits[i] + carry
@@ -423,8 +415,8 @@ def threeSum(nums):
 # Leetcode - Problem: 16
 
 def threeSumClosest(nums, target):
-    res = float("+inf")
     nums.sort()
+    closest = float("+inf")
 
     for i in range(len(nums)-1):
         if i > 0 and nums[i] == nums[i-1]:
@@ -437,8 +429,8 @@ def threeSumClosest(nums, target):
             if sum == target:
                 return sum
 
-            if abs(target-sum) < abs(target-res):
-                res = sum
+            if abs(target-sum) < abs(target-closest):
+                closest = sum
 
             if sum <= target:
                 j += 1
@@ -446,6 +438,6 @@ def threeSumClosest(nums, target):
                     j += 1
             else:
                 k -= 1
-                while k < j and nums[j] == nums[j-1]:
+                while k < j and nums[k] == nums[k+1]:
                     k -= 1
-    return res
+    return closest
