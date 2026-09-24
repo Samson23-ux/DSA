@@ -298,13 +298,13 @@ def recursive_bubble_sort(nums, i=None):
 
 
 # Quick sort
-def quick_sort(nums, start = 0, end = None):
+def quick_sort(nums, start=0, end=None):
     if end is None:
         end = len(nums) - 1
 
     def partition(nums, start, end):
         # pivot is chosen to be the last element
-        l, r = start, end-1
+        l, r = start, end - 1
 
         while l < r:
             if nums[l] <= nums[end]:
@@ -319,8 +319,9 @@ def quick_sort(nums, start = 0, end = None):
         # check finally for the last element
         # return end if it is less than our pivot
         # i.e. the last element is in its right position
-        if nums[l] < nums[end]:
-            return end
+        if nums[l] <= nums[end]:
+            nums[l + 1], nums[end] = nums[end], nums[l + 1]
+            return l + 1
         else:
             # swap the pivot and the last element
             # and return the index of the last element
@@ -329,8 +330,8 @@ def quick_sort(nums, start = 0, end = None):
 
     if start < end:
         partition_index = partition(nums, start, end)
-        quick_sort(nums, start, partition_index-1)
-        quick_sort(nums, partition_index+1, end)
+        quick_sort(nums, start, partition_index - 1)
+        quick_sort(nums, partition_index + 1, end)
     return nums
 
 
@@ -351,6 +352,7 @@ y > 0, and
 x / y <= a / b.
 Return the number of valid subarrays in nums."""
 
+
 def countRatioSubarrays(nums, a, b):
     """
     :type nums: List[int]
@@ -367,10 +369,11 @@ def countRatioSubarrays(nums, a, b):
                 x += 1
             else:
                 y += 1
-            
+
             if y > 0 and (x * b) <= (y * a):
                 res += 1
     return res
+
 
 # Leetcode - Problem: 88
 
@@ -382,6 +385,8 @@ Merge nums1 and nums2 into a single array sorted in non-decreasing order.
 The final sorted array should not be returned by the function, but instead be stored inside the array nums1.
 To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged,
 and the last n elements are set to 0 and should be ignored. nums2 has a length of n."""
+
+
 def merge_88(nums1, m, nums2, n):
     """
     :type nums1: List[int]
@@ -397,7 +402,7 @@ def merge_88(nums1, m, nums2, n):
     nums2.append(float("+inf"))
     cop_nums1.append(float("+inf"))
 
-    for k in range(m+n):
+    for k in range(m + n):
         if cop_nums1[i] <= nums2[j]:
             nums1[k] = cop_nums1[i]
             i += 1
@@ -446,3 +451,60 @@ def mergeArrays(nums1, nums2):
 
             j += 1
     return res
+
+
+def sort_intervals(intervals, start=0, end=None):
+    def partition(intervals, start, end):
+        l, r = start, end - 1
+
+        while l < r:
+            if intervals[l][0] <= intervals[end][0]:
+                l += 1
+            elif intervals[r][0] > intervals[end][0]:
+                r -= 1
+            else:
+                intervals[l], intervals[r] = intervals[r], intervals[l]
+                l += 1
+                r -= 1
+
+        if intervals[l][0] <= intervals[end][0]:
+            intervals[l + 1], intervals[end] = intervals[end], intervals[l + 1]
+            return l + 1
+        else:
+            intervals[l], intervals[end] = intervals[end], intervals[l]
+            return l
+
+    if end is None:
+        end = len(intervals) - 1
+
+    if start < end:
+        partition_index = partition(intervals, start, end)
+        sort_intervals(intervals, start, partition_index - 1)
+        sort_intervals(intervals, partition_index + 1, end)
+
+    return intervals
+
+
+# Leetcode - Problem: 56
+
+
+def merge_intervals(intervals):
+    intervals = sort_intervals(intervals)
+
+    interval_position = 1
+    merged, curr_interval = [intervals[0]], intervals[0]
+
+    for i in range(1, len(intervals)):
+        if intervals[i][0] <= curr_interval[1]:
+            end = max(curr_interval[1], intervals[i][1])
+            curr_interval = [curr_interval[0], end]
+        else:
+            interval_position += 1
+            curr_interval = intervals[i]
+
+        if interval_position > len(merged):
+            merged.append(curr_interval)
+        else:
+            merged[interval_position - 1] = curr_interval
+
+    return merged

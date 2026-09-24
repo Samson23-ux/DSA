@@ -1,9 +1,10 @@
 from typing import List
-from collections import Counter
+from collections import Counter, defaultdict
 
 # Leetcode - Problem 1
 
 # Two Sum
+
 
 def twoSum(nums: List[int], target: int) -> List[int]:
     hash_table = {}
@@ -15,6 +16,7 @@ def twoSum(nums: List[int], target: int) -> List[int]:
 
 
 # Leetcode - Problem 27
+
 
 def removeElement(nums, val):
     """
@@ -240,6 +242,7 @@ def row_exists(row_group, row, val):
         row_group[row].add(val)
     return False
 
+
 def col_exists(col_group, col, val):
     if col not in col_group:
         col_group[col] = {val}
@@ -261,6 +264,7 @@ def box_exists(box_group, box, val):
 
 
 # Leetcode - Problem: 36
+
 
 def validSoduko(soduko: list[list]):
     row_group = {}
@@ -285,12 +289,14 @@ def validSoduko(soduko: list[list]):
                 return False
     return True
 
+
 # Leetcode - Problem: 347
+
 
 def kFrequentElement(nums, k):
     n = len(nums)
     counter = Counter(nums)
-    bucket = [0] * (n+1)
+    bucket = [0] * (n + 1)
 
     for key, freq in counter.items():
         if bucket[freq] == 0:
@@ -308,10 +314,11 @@ def kFrequentElement(nums, k):
     return res
 
 
-# Leetcode - Problem: 
+# Leetcode - Problem:
+
 
 def trappingRainWater(nums):
-    l, r = 0, len(nums)-1
+    l, r = 0, len(nums) - 1
     max_left, max_right = float("-inf"), float("-inf")
 
     total = 0
@@ -341,7 +348,9 @@ def trappingRainWater(nums):
             r -= 1
     return total
 
-# Leetcode - Problem: 
+
+# Leetcode - Problem:
+
 
 def buyAndSellStock(stocks):
     max_profit = 0
@@ -358,11 +367,12 @@ def buyAndSellStock(stocks):
 
 # Leetcode - Problem: 66
 
+
 def plusOne(digits):
     carry = 0
-    for i in range(len(digits)-1, -1, -1):
+    for i in range(len(digits) - 1, -1, -1):
         res = digits[i] + carry
-        if i == len(digits)-1:
+        if i == len(digits) - 1:
             res += 1
 
         if res > 9:
@@ -382,15 +392,16 @@ def plusOne(digits):
 
 # Leetcode - Problem: 13
 
+
 def threeSum(nums):
     nums.sort()
     res, processed = [], set()
 
-    for i in range(len(nums)-1):
-        if i > 0 and nums[i] == nums[i-1]:
+    for i in range(len(nums) - 1):
+        if i > 0 and nums[i] == nums[i - 1]:
             continue
 
-        j, k = i+1, len(nums)-1
+        j, k = i + 1, len(nums) - 1
         while j < k:
             sum = nums[i] + nums[j] + nums[k]
 
@@ -403,41 +414,68 @@ def threeSum(nums):
                 k -= 1
             elif sum > 0:
                 k -= 1
-                while k < j and nums[k] == nums[k+1]:
+                while k < j and nums[k] == nums[k + 1]:
                     k -= 1
             else:
                 j += 1
-                while k < j and nums[j] == nums[j-1]:
+                while k < j and nums[j] == nums[j - 1]:
                     j += 1
     return res
 
 
 # Leetcode - Problem: 16
 
+
 def threeSumClosest(nums, target):
     nums.sort()
     closest = float("+inf")
 
-    for i in range(len(nums)-1):
-        if i > 0 and nums[i] == nums[i-1]:
+    for i in range(len(nums) - 1):
+        if i > 0 and nums[i] == nums[i - 1]:
             continue
 
-        j, k = i+1, len(nums)-1
+        j, k = i + 1, len(nums) - 1
         while j < k:
             sum = nums[i] + nums[j] + nums[k]
 
             if sum == target:
                 return sum
 
-            if abs(target-sum) < abs(target-closest):
+            if abs(target - sum) < abs(target - closest):
                 closest = sum
 
             if sum <= target:
                 j += 1
-                while k < j and nums[j] == nums[j-1]:
+                while k < j and nums[j] == nums[j - 1]:
                     j += 1
             else:
                 k -= 1
-                while k < j and nums[k] == nums[k+1]:
+                while k < j and nums[k] == nums[k + 1]:
                     k -= 1
     return closest
+
+
+# leetcode - Problem: 1652
+
+def decrypt(code, k):
+    res = [0] * len(code)
+    for left in range(len(code)):
+        if k == 0:
+            return res
+        elif k > 0:
+            sum = 0
+            right = left + 1
+
+            for i in range(right, right+k):
+                if i > len(code)-1:
+                    i = i - len(code)
+                sum += code[i]
+            res[left] = sum
+        else:
+            sum = 0
+            right = left - 1
+
+            for i in range(right, right+k, -1):
+                sum += code[i]
+            res[left] = sum
+    return res
