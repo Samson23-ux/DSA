@@ -1,6 +1,3 @@
-from typing import List
-
-
 # Insertion sort
 def insertion_sort(data: list[int]) -> list[int]:
     for i in range(1, len(data)):
@@ -76,7 +73,7 @@ class Pair:
 
 
 class Solution:
-    def insertionSort(self, pairs: List[Pair]) -> List[List[Pair]]:
+    def insertionSort(self, pairs: list[Pair]) -> list[list[Pair]]:
         if len(pairs) == 0:
             return []
         res = [pairs[:]]

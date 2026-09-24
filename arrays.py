@@ -1,12 +1,11 @@
-from typing import List
-from collections import Counter, defaultdict
+from collections import Counter
 
 # Leetcode - Problem 1
 
 # Two Sum
 
 
-def twoSum(nums: List[int], target: int) -> List[int]:
+def twoSum(nums: list[int], target: int) -> list[int]:
     hash_table = {}
     for index, value in enumerate(nums):
         res = target - value
@@ -62,7 +61,7 @@ assert k == expectedNums.length;
 for (int i = 0; i < k; i++) {
     assert nums[i] == expectedNums[i];
 }
-If all assertions pass, then your solution will be accepted."""
+If all assertions pass, then your solution will be accepted."""  # noqa: PLE2515
 
 
 def removeDuplicates(nums):
@@ -131,7 +130,7 @@ The strings "nat" and "tan" are anagrams as they can be rearranged to form each 
 The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to form each other."""
 
 
-def groupAnagrams(strs: List[str]) -> List[List[str]]:
+def groupAnagrams(strs: list[str]) -> list[list[str]]:
     words, res = {}, []
 
     for word in strs:
